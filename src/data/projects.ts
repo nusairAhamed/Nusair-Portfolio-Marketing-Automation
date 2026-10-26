@@ -129,6 +129,7 @@ export const clientProjects: ClientProject[] = [
       bgColor: '#EEF4FA',
       border: 'border-[#cfe0f2]',
       shadow: 'shadow-[0_20px_50px_rgba(15,23,42,0.06)]',
+      brandColor: '#004B91',
     },
     caseStudyUrl: '#',
     builds: [
@@ -198,6 +199,7 @@ export const clientProjects: ClientProject[] = [
       bgColor: '#FAF0F0',
       border: 'border-[#f2cece]',
       shadow: 'shadow-[0_20px_50px_rgba(228,0,43,0.06)]',
+      brandColor: '#E4002B',
     },
     caseStudyUrl: '#',
     builds: [
@@ -267,6 +269,7 @@ export const clientProjects: ClientProject[] = [
       bgColor: '#F3EAF7',
       border: 'border-[#e4d0f0]',
       shadow: 'shadow-[0_20px_50px_rgba(35,15,42,0.06)]',
+      brandColor: '#9333EA',
     },
     caseStudyUrl: '#',
     builds: [
