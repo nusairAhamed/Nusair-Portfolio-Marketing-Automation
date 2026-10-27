@@ -10,7 +10,6 @@ const ROTATION_INTERVAL = 6000; // 6 seconds per project demo
 export const InteractiveEmails: React.FC = () => {
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [isHovered, setIsHovered] = useState(false);
   const [progress, setProgress] = useState(0);
   const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
 
@@ -97,7 +96,7 @@ export const InteractiveEmails: React.FC = () => {
 
   // Handle auto-rotation timer & progress bar
   useEffect(() => {
-    if (!isPlaying || isHovered || prefersReducedMotion) {
+    if (!isPlaying || prefersReducedMotion) {
       return;
     }
 
@@ -106,16 +105,24 @@ export const InteractiveEmails: React.FC = () => {
 
     const timer = setInterval(() => {
       setProgress((prev) => {
-        if (prev >= 100) {
-          setActiveProjectIndex((current) => (current + 1) % emailProjects.length);
-          return 0;
+        const next = prev + step;
+        if (next >= 100) {
+          return 100;
         }
-        return prev + step;
+        return next;
       });
     }, intervalTime);
 
     return () => clearInterval(timer);
-  }, [isPlaying, isHovered, prefersReducedMotion]);
+  }, [isPlaying, prefersReducedMotion]);
+
+  // When progress reaches 100%, advance to next project in exact 1 -> 2 -> 3 sequential order
+  useEffect(() => {
+    if (progress >= 100) {
+      setActiveProjectIndex((current) => (current + 1) % emailProjects.length);
+      setProgress(0);
+    }
+  }, [progress]);
 
   const handleSelectProject = (idx: number) => {
     setActiveProjectIndex(idx);
@@ -162,7 +169,7 @@ export const InteractiveEmails: React.FC = () => {
                 <button
                   key={project.id}
                   onClick={() => handleSelectProject(idx)}
-                  className={`relative overflow-hidden flex items-center gap-2.5 px-5 py-3 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+                  className={`relative overflow-hidden flex items-center gap-2 sm:gap-2.5 px-4 sm:px-5 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                     isActive
                       ? 'bg-slate-900 text-white shadow-md'
                       : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200/60'
@@ -178,7 +185,7 @@ export const InteractiveEmails: React.FC = () => {
                   </span>
 
                   {/* Active tab auto-play progress bar */}
-                  {isActive && isPlaying && !isHovered && !prefersReducedMotion && (
+                  {isActive && isPlaying && !prefersReducedMotion && (
                     <span
                       className="absolute bottom-0 left-0 h-[2.5px] bg-[#C6F135] transition-all duration-75 ease-linear pointer-events-none"
                       style={{ width: `${progress}%` }}
@@ -212,8 +219,6 @@ export const InteractiveEmails: React.FC = () => {
         {/* Display Area: Left Minimal Details + Right Large Visual */}
         <div
           ref={displayAreaRef}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
           className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
         >
           {/* Left Column: Visual-First Project Info */}
@@ -222,12 +227,9 @@ export const InteractiveEmails: React.FC = () => {
               <span className="text-4xl font-mono font-bold text-slate-300 block mb-3">
                 {activeProject.number}
               </span>
-              <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight mb-2">
+              <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight mb-3 sm:mb-4">
                 {activeProject.title}
               </h3>
-              <span className="text-sm font-mono font-semibold text-slate-500 uppercase tracking-wider block mb-4">
-                {activeProject.category}
-              </span>
               <p className="text-sm text-slate-600 leading-relaxed">
                 {activeProject.description}
               </p>

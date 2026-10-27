@@ -4,8 +4,8 @@ import { FloatingNav } from './components/Navigation/FloatingNav';
 import { Hero } from './components/Hero/Hero';
 import { InteractiveEmails } from './components/InteractiveEmails/InteractiveEmails';
 import { SelectedWork } from './components/SelectedWork/SelectedWork';
-import { ProcessTimeline } from './components/Process/ProcessTimeline';
 import { About } from './components/About/About';
+import { ProcessTimeline } from './components/Process/ProcessTimeline';
 import { Experience } from './components/Experience/Experience';
 import { Contact } from './components/Contact/Contact';
 import { Footer } from './components/Footer/Footer';
@@ -21,7 +21,7 @@ export const App: React.FC = () => {
 
       {/* Main Portfolio Flow */}
       <main className="flex-1">
-        {/* 01 — Hero */}
+        {/* 01 — Hero (with embedded platform logos moving slider) */}
         <Hero />
 
         {/* 02 — Interactive Email Experiences */}

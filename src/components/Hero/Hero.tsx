@@ -3,6 +3,8 @@ import { TactileButton } from '../UI/TactileButton';
 import { gsap } from '../../animations/gsapConfig';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 
+import { platformsData } from '../../data/platforms';
+
 export const Hero: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
   const eyebrowRef = useRef<HTMLDivElement>(null);
@@ -10,8 +12,17 @@ export const Hero: React.FC = () => {
   const textRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const portraitFrameRef = useRef<HTMLDivElement>(null);
+  const sliderRef = useRef<HTMLDivElement>(null);
 
   const prefersReducedMotion = usePrefersReducedMotion();
+
+  // Duplicate platforms for a perfectly seamless infinite loop
+  const marqueeItems = [
+    ...platformsData,
+    ...platformsData,
+    ...platformsData,
+    ...platformsData,
+  ];
 
   useEffect(() => {
     if (prefersReducedMotion) return;
@@ -52,6 +63,12 @@ export const Hero: React.FC = () => {
             ease: 'power4.out',
           },
           '-=0.8'
+        )
+        .fromTo(
+          sliderRef.current,
+          { opacity: 0, y: 15 },
+          { opacity: 1, y: 0, duration: 0.7 },
+          '-=0.4'
         );
     }, containerRef);
 
@@ -62,7 +79,7 @@ export const Hero: React.FC = () => {
     <section
       ref={containerRef}
       id="hero"
-      className="relative min-h-[88vh] flex flex-col justify-center pt-32 sm:pt-40 pb-20 px-4 sm:px-6 lg:px-12 hero-gradient-bg overflow-hidden"
+      className="relative min-h-[88vh] flex flex-col justify-center pt-32 sm:pt-40 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-12 hero-gradient-bg overflow-hidden"
     >
       {/* Subtle atmospheric ambient glow */}
       <div className="absolute top-12 left-1/4 w-96 h-96 bg-blue-200/25 rounded-full blur-3xl pointer-events-none -z-10" />
@@ -131,6 +148,37 @@ export const Hero: React.FC = () => {
               className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.02]"
             />
           </div>
+        </div>
+      </div>
+
+      {/* Moving Platform Logos Slider (Pause on Hover) */}
+      <div
+        ref={sliderRef}
+        className="w-full mt-12 sm:mt-16 py-6 sm:py-8 border-y border-slate-200/60 relative overflow-hidden group"
+      >
+        {/* Left & Right Gradient Fade Masks */}
+        <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-20 sm:w-36 bg-gradient-to-r from-[#FBFBFB] via-[#FBFBFB]/90 to-transparent z-10" />
+        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-20 sm:w-36 bg-gradient-to-l from-[#FBFBFB] via-[#FBFBFB]/90 to-transparent z-10" />
+
+        {/* Continuous Marquee Track (Gentle Speed & Pause on Hover) */}
+        <div
+          className="flex w-max items-center gap-16 sm:gap-24 md:gap-28 animate-marquee hover:[animation-play-state:paused] will-change-transform"
+          style={{ animationDuration: '65s' }}
+        >
+          {marqueeItems.map((platform, index) => (
+            <div
+              key={`${platform.id}-${index}`}
+              className="flex items-center justify-center shrink-0 cursor-pointer transition-transform duration-300 hover:scale-105 h-[36px] sm:h-[44px] md:h-[60px]"
+              title={`${platform.name} — ${platform.category}`}
+            >
+              <img
+                src={platform.logo}
+                alt={`${platform.name} logo`}
+                className="h-[36px] sm:h-[44px] md:h-[60px] max-w-[140px] sm:max-w-[180px] md:max-w-[210px] w-auto object-contain filter grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+                loading="lazy"
+              />
+            </div>
+          ))}
         </div>
       </div>
     </section>

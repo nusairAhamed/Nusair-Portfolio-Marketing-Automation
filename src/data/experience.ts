@@ -3,7 +3,7 @@ import { CareerItem } from '../types';
 export const careerExperiences: CareerItem[] = [
   {
     id: 'exp-1',
-    role: 'Senior HubSpot Specialist',
+    role: 'Senior EDM Engineer',
     company: 'Maytech Technologies',
     dates: '08/2025 – Present',
     location: 'Srilanka - Australia',

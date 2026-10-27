@@ -7,7 +7,6 @@ export const About: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
-  const skillsRef = useRef<HTMLDivElement>(null);
 
   const prefersReducedMotion = usePrefersReducedMotion();
 
@@ -40,41 +39,6 @@ export const About: React.FC = () => {
         'Litmus & Email on Acid',
         'Outlook / Gmail / Apple Mail',
         'Deliverability & dark mode',
-      ],
-    },
-  ];
-
-  const skillGroups = [
-    {
-      group: 'PLATFORMS',
-      skills: [
-        'HubSpot',
-        'Salesforce Marketing Cloud',
-        'Adobe Campaign',
-        'Mailchimp',
-        'Taxi for Email',
-        'Insider',
-        'LuxSci',
-      ],
-    },
-    {
-      group: 'EMAIL',
-      skills: [
-        'HTML Email',
-        'Responsive Email',
-        'Dark Mode',
-        'Email on Acid',
-        'Litmus',
-      ],
-    },
-    {
-      group: 'DEVELOPMENT',
-      skills: [
-        'HTML / CSS',
-        'JavaScript',
-        'PHP',
-        'WordPress',
-        'Figma → Code',
       ],
     },
   ];
@@ -112,24 +76,6 @@ export const About: React.FC = () => {
           scrollTrigger: {
             trigger: cardsRef.current,
             start: 'top 88%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
-
-      const pills = gsap.utils.toArray<HTMLElement>('.skill-pill');
-      gsap.fromTo(
-        pills,
-        { opacity: 0, scale: 0.94 },
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 0.4,
-          stagger: 0.02,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: skillsRef.current,
-            start: 'top 90%',
             toggleActions: 'play none none reverse',
           },
         }
@@ -181,7 +127,7 @@ export const About: React.FC = () => {
             {/* 3 Capability Cards */}
             <div
               ref={cardsRef}
-              className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 mb-14"
+              className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5"
             >
               {capabilities.map((cap) => {
                 const IconComponent = cap.icon;
@@ -212,45 +158,6 @@ export const About: React.FC = () => {
                   </div>
                 );
               })}
-            </div>
-
-            {/* Skills Section */}
-            <div ref={skillsRef} className="pt-8 border-t border-white/10">
-              <h3 className="text-xs font-mono uppercase tracking-widest text-slate-400 mb-6 font-bold">
-                CORE TECHNICAL COMPETENCIES &amp; PLATFORMS
-              </h3>
-
-              <div className="space-y-4 sm:space-y-5">
-                {skillGroups.map((group) => (
-                  <div
-                    key={group.group}
-                    className="flex flex-col sm:flex-row sm:items-center gap-2.5 sm:gap-4"
-                  >
-                    {/* Category Label */}
-                    <span className="text-[11px] font-mono font-bold tracking-wider text-slate-400 uppercase shrink-0 sm:w-28">
-                      {group.group}
-                    </span>
-
-                    {/* Compact Pills */}
-                    <div className="flex flex-wrap gap-2">
-                      {group.skills.map((skill) => {
-                        const isFigmaToCode = skill === 'Figma → Code';
-                        return (
-                          <span
-                            key={skill}
-                            className={`skill-pill px-3.5 py-1.5 rounded-full text-xs font-mono font-bold tracking-wider uppercase transition-all duration-200 cursor-default select-none ${isFigmaToCode
-                                ? 'bg-[#C6F135] text-slate-950 shadow-[0_2px_12px_rgba(198,241,53,0.35)] hover:bg-white'
-                                : 'bg-white/10 text-slate-200 hover:bg-white/15 border border-white/10'
-                              }`}
-                          >
-                            {skill}
-                          </span>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
         </div>

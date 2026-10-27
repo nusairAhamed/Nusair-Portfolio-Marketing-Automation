@@ -78,7 +78,7 @@ export const Contact: React.FC = () => {
             <SectionBadge label="/ 07 — GET IN TOUCH" className="mb-6 text-slate-800" />
 
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 leading-[1.08] mb-6">
-              Have something to ship?
+              Have something to build?
             </h2>
 
             <p className="text-base sm:text-xl text-slate-700 font-normal leading-relaxed mb-10 max-w-xl">
