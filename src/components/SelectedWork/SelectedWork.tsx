@@ -225,11 +225,11 @@ export const SelectedWork: React.FC = () => {
   const targetScales = [0.85, 0.90, 0.95, 1.0];
 
   return (
-    <section id="selected-work" className="py-24 md:py-36 bg-white relative">
+    <section id="selected-work" className="pt-14 sm:pt-16 pb-20 sm:pb-28 bg-white relative">
       {/* Sticky Section Heading — main heading and sub heading */}
       <motion.div
         style={{ y: prefersReducedMotion ? 0 : headingY }}
-        className="sticky top-[76px] z-20 bg-white pt-[60px] pb-[44px]"
+        className="sticky top-[76px] z-20 bg-white pt-3 sm:pt-4 pb-4 sm:pb-6"
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionBadge label="/ 03 — SELECTED WORK" className="mb-2 sm:mb-2.5" />

@@ -226,7 +226,7 @@ export const ProcessTimeline: React.FC = () => {
     <section
       ref={containerRef}
       id="process"
-      className="py-20 sm:py-24 lg:py-28 bg-[#FBFBFB] border-t border-slate-200/70 relative overflow-hidden"
+      className="pt-14 sm:pt-16 pb-20 sm:pb-24 bg-[#FBFBFB] border-t border-slate-200/70 relative overflow-hidden"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-12">
         {/* ============================================================ */}

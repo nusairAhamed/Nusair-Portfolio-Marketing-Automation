@@ -63,7 +63,7 @@ export const Contact: React.FC = () => {
     <section
       ref={containerRef}
       id="contact"
-      className="py-24 md:py-36 bg-[#FBFBFB] relative overflow-hidden"
+      className="pt-14 sm:pt-16 pb-20 sm:pb-28 bg-[#FBFBFB] relative overflow-hidden"
     >
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-12">
         <div

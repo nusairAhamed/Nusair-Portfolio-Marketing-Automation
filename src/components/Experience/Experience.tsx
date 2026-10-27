@@ -63,7 +63,7 @@ export const Experience: React.FC = () => {
     <section
       ref={containerRef}
       id="experience"
-      className="py-24 md:py-36 bg-[#FBFBFB] border-t border-slate-200/70 relative overflow-hidden"
+      className="pt-14 sm:pt-16 pb-20 sm:pb-28 bg-[#FBFBFB] border-t border-slate-200/70 relative overflow-hidden"
     >
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-12">
         {/* Section Header */}

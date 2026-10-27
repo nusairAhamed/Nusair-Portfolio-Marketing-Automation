@@ -89,7 +89,7 @@ export const About: React.FC = () => {
     <section
       ref={containerRef}
       id="about"
-      className="py-20 sm:py-28 bg-transparent relative overflow-hidden z-20"
+      className="pt-14 sm:pt-16 pb-20 sm:pb-28 bg-transparent relative overflow-hidden z-20"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
         {/* Dark Navy Card matching Selected Work width and radius */}

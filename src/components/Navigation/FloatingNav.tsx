@@ -7,9 +7,18 @@ interface FloatingNavProps {
   onContactClick?: () => void;
 }
 
+const navItems = [
+  { label: 'Interactive', href: '#interactive-emails' },
+  { label: 'Work', href: '#selected-work' },
+  { label: 'About', href: '#about' },
+  { label: 'Process', href: '#process' },
+  { label: 'Experience', href: '#experience' },
+];
+
 export const FloatingNav: React.FC<FloatingNavProps> = ({ onContactClick }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>('');
   const navRef = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
@@ -18,6 +27,7 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({ onContactClick }) => {
   useEffect(() => {
     let rafId: number;
     let lastScrolled = false;
+    let lastActive = '';
 
     const updateScrollProgress = () => {
       const scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
@@ -35,6 +45,33 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({ onContactClick }) => {
       if (scrolled !== lastScrolled) {
         lastScrolled = scrolled;
         setIsScrolled(scrolled);
+      }
+
+      // Scrollspy: detect active section
+      let currentActive = '';
+      if (scrollTop > 200) {
+        const checkPoint = 90;
+        const contactEl = document.querySelector('#contact');
+        if (contactEl && contactEl.getBoundingClientRect().top <= checkPoint) {
+          currentActive = '';
+        } else {
+          for (let i = navItems.length - 1; i >= 0; i--) {
+            const item = navItems[i];
+            const el = document.querySelector(item.href);
+            if (el) {
+              const rect = el.getBoundingClientRect();
+              if (rect.top <= checkPoint) {
+                currentActive = item.href;
+                break;
+              }
+            }
+          }
+        }
+      }
+
+      if (currentActive !== lastActive) {
+        lastActive = currentActive;
+        setActiveSection(currentActive);
       }
     };
 
@@ -81,14 +118,6 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({ onContactClick }) => {
     }
   }, [isMobileMenuOpen]);
 
-  const navItems = [
-    { label: 'Interactive', href: '#interactive-emails' },
-    { label: 'Work', href: '#selected-work' },
-    { label: 'About', href: '#about' },
-    { label: 'Process', href: '#process' },
-    { label: 'Experience', href: '#experience' },
-  ];
-
   const handleNavClick = (href: string) => {
     setIsMobileMenuOpen(false);
     if (href === '#contact' && onContactClick) {
@@ -97,10 +126,12 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({ onContactClick }) => {
     }
     const target = document.querySelector(href);
     if (target) {
+      setActiveSection(href);
       if (window.__lenis) {
-        window.__lenis.scrollTo(target as HTMLElement, { offset: -60 });
+        window.__lenis.scrollTo(target as HTMLElement, { offset: -76, duration: 1.1 });
       } else {
-        target.scrollIntoView({ behavior: 'smooth' });
+        const top = (target as HTMLElement).getBoundingClientRect().top + window.scrollY - 76;
+        window.scrollTo({ top, behavior: 'smooth' });
       }
     }
   };
@@ -141,16 +172,28 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({ onContactClick }) => {
 
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex items-center gap-0.5 lg:gap-1">
-            {navItems.map((item) => (
-              <button
-                key={item.label}
-                onClick={() => handleNavClick(item.href)}
-                className="relative text-xs lg:text-sm font-medium text-slate-600 hover:text-slate-900 px-2.5 lg:px-3.5 py-1.5 rounded-full transition-colors group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c6f135]"
-              >
-                <span>{item.label}</span>
-                <span className="absolute bottom-0 left-2.5 right-2.5 h-[2px] bg-[#c6f135] scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left rounded-full" />
-              </button>
-            ))}
+            {navItems.map((item) => {
+              const isActive = activeSection === item.href;
+              return (
+                <button
+                  key={item.label}
+                  onClick={() => handleNavClick(item.href)}
+                  className={`relative text-xs lg:text-sm px-2.5 lg:px-3.5 py-1.5 rounded-full transition-colors group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c6f135] ${
+                    isActive
+                      ? 'text-slate-900 font-semibold'
+                      : 'text-slate-600 hover:text-slate-900 font-medium'
+                  }`}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  <span>{item.label}</span>
+                  <span
+                    className={`absolute bottom-0 left-2.5 right-2.5 h-[2px] bg-[#c6f135] transition-transform duration-200 origin-left rounded-full ${
+                      isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                    }`}
+                  />
+                </button>
+              );
+            })}
           </div>
 
           {/* Right Action & Mobile Button */}
@@ -198,18 +241,32 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({ onContactClick }) => {
           <span className="text-[11px] font-mono tracking-widest text-slate-400 uppercase">
             NAVIGATION
           </span>
-          {navItems.map((item, idx) => (
-            <button
-              key={item.label}
-              onClick={() => handleNavClick(item.href)}
-              className="text-2xl font-bold tracking-tight text-slate-900 text-left py-2 border-b border-slate-100 flex items-center justify-between group"
-            >
-              <span>{item.label}</span>
-              <span className="text-xs font-mono text-slate-400 group-hover:text-[#c6f135]">
-                0{idx + 1}
-              </span>
-            </button>
-          ))}
+          {navItems.map((item, idx) => {
+            const isActive = activeSection === item.href;
+            return (
+              <button
+                key={item.label}
+                onClick={() => handleNavClick(item.href)}
+                className={`text-2xl font-bold tracking-tight text-left py-2 border-b border-slate-100 flex items-center justify-between group transition-colors ${
+                  isActive ? 'text-slate-900' : 'text-slate-500 hover:text-slate-900'
+                }`}
+              >
+                <span className="flex items-center gap-2.5">
+                  {isActive && (
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#c6f135] shadow-[0_0_10px_rgba(198,241,53,0.8)]" />
+                  )}
+                  {item.label}
+                </span>
+                <span
+                  className={`text-xs font-mono transition-colors ${
+                    isActive ? 'text-[#0f172a] font-bold' : 'text-slate-400 group-hover:text-[#c6f135]'
+                  }`}
+                >
+                  0{idx + 1}
+                </span>
+              </button>
+            );
+          })}
         </div>
 
         <div className="space-y-4 pt-6 border-t border-slate-100">

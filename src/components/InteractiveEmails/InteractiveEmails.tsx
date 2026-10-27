@@ -142,7 +142,7 @@ export const InteractiveEmails: React.FC = () => {
     <section
       ref={sectionRef}
       id="interactive-emails"
-      className="pt-24 md:pt-36 pb-24 md:pb-36 bg-[#FBFBFB] relative overflow-hidden"
+      className="pt-14 sm:pt-16 pb-20 sm:pb-28 bg-[#FBFBFB] relative overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
         {/* Section Header */}
