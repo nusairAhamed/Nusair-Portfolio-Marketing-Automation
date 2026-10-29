@@ -156,64 +156,43 @@ export const InteractiveEmails: React.FC = () => {
           </p>
         </div>
 
-        {/* Project Selector Tabs with Auto-Play & Progress Bar */}
+        {/* Project Selector Tabs */}
         <div
           ref={tabsRef}
-          className="flex flex-wrap items-center justify-between gap-3 mb-10 pb-4 border-b border-slate-200/80"
+          className="flex flex-wrap items-center gap-2 mb-8 sm:mb-10 pb-4 border-b border-slate-200/80"
         >
-          <div className="flex flex-wrap items-center gap-2">
-            {emailProjects.map((project, idx) => {
-              const isActive = activeProjectIndex === idx;
+          {emailProjects.map((project, idx) => {
+            const isActive = activeProjectIndex === idx;
 
-              return (
-                <button
-                  key={project.id}
-                  onClick={() => handleSelectProject(idx)}
-                  className={`relative overflow-hidden flex items-center gap-2 sm:gap-2.5 px-4 sm:px-5 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
-                    isActive
-                      ? 'bg-slate-900 text-white shadow-md'
-                      : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200/60'
+            return (
+              <button
+                key={project.id}
+                onClick={() => handleSelectProject(idx)}
+                className={`relative overflow-hidden flex items-center gap-2 sm:gap-2.5 px-4 sm:px-5 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+                  isActive
+                    ? 'bg-slate-900 text-white shadow-md'
+                    : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200/60'
+                }`}
+              >
+                <span
+                  className={`w-2 h-2 rounded-full transition-colors ${
+                    isActive ? 'bg-[#C6F135]' : 'bg-slate-300'
                   }`}
-                >
+                />
+                <span>
+                  {project.number} — {project.title}
+                </span>
+
+                {/* Active tab auto-play progress bar */}
+                {isActive && isPlaying && !prefersReducedMotion && (
                   <span
-                    className={`w-2 h-2 rounded-full transition-colors ${
-                      isActive ? 'bg-[#C6F135]' : 'bg-slate-300'
-                    }`}
+                    className="absolute bottom-0 left-0 h-[2.5px] bg-[#C6F135] transition-all duration-75 ease-linear pointer-events-none"
+                    style={{ width: `${progress}%` }}
                   />
-                  <span>
-                    {project.number} — {project.title}
-                  </span>
-
-                  {/* Active tab auto-play progress bar */}
-                  {isActive && isPlaying && !prefersReducedMotion && (
-                    <span
-                      className="absolute bottom-0 left-0 h-[2.5px] bg-[#C6F135] transition-all duration-75 ease-linear pointer-events-none"
-                      style={{ width: `${progress}%` }}
-                    />
-                  )}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Auto-Play Pause / Resume Button */}
-          <button
-            onClick={handleTogglePlay}
-            title={isPlaying ? 'Pause auto-cycle' : 'Resume auto-cycle'}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-white border border-slate-200/70 text-slate-600 hover:text-slate-900 hover:bg-slate-100 text-xs font-mono font-medium transition-all shadow-xs cursor-pointer select-none"
-          >
-            {isPlaying ? (
-              <>
-                <Pause className="w-3.5 h-3.5 text-slate-700" />
-                <span className="hidden sm:inline">Auto-play on</span>
-              </>
-            ) : (
-              <>
-                <Play className="w-3.5 h-3.5 text-slate-700 fill-slate-700" />
-                <span className="hidden sm:inline">Auto-play paused</span>
-              </>
-            )}
-          </button>
+                )}
+              </button>
+            );
+          })}
         </div>
 
         {/* Display Area: Left Minimal Details + Right Large Visual */}
@@ -236,24 +215,48 @@ export const InteractiveEmails: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Clean Large GIF Visual */}
-          <div className="lg:col-span-8 flex flex-col items-center justify-center rounded-[32px] overflow-hidden bg-slate-950 p-2 sm:p-4 shadow-2xl relative min-h-[460px]">
-            <div className="relative w-full h-full rounded-2xl overflow-hidden flex items-center justify-center min-h-[380px] sm:min-h-[460px]">
-              {!imageErrors[activeProject.id] ? (
-                <img
-                  key={activeProject.id}
-                  src={activeProject.image}
-                  alt={activeProject.title}
-                  onError={() => handleImageError(activeProject.id)}
-                  className="w-full h-full object-contain max-h-[600px] rounded-2xl transition-opacity duration-300"
-                  loading="eager"
-                  decoding="async"
-                />
-              ) : (
-                <div className="p-8 text-center flex flex-col items-center justify-center">
-                  <Play className="w-10 h-10 text-slate-600 mb-2" />
-                </div>
-              )}
+          {/* Right Column: Clean Large GIF Visual Preview */}
+          <div className="lg:col-span-8 flex flex-col gap-3">
+            {/* Auto-Play Toggle directly above the preview screen */}
+            <div className="flex items-center justify-end">
+              <button
+                type="button"
+                onClick={handleTogglePlay}
+                title={isPlaying ? 'Pause auto-cycle' : 'Resume auto-cycle'}
+                className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-slate-200/80 text-slate-600 hover:text-slate-900 hover:bg-slate-100 text-xs font-mono font-medium transition-all shadow-xs cursor-pointer select-none"
+              >
+                {isPlaying ? (
+                  <>
+                    <Pause className="w-3.5 h-3.5 text-slate-700" />
+                    <span>Auto-play on</span>
+                  </>
+                ) : (
+                  <>
+                    <Play className="w-3.5 h-3.5 text-slate-700 fill-slate-700" />
+                    <span>Auto-play paused</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            <div className="flex flex-col items-center justify-center rounded-[32px] overflow-hidden bg-slate-950 p-2 sm:p-4 shadow-2xl relative min-h-[460px]">
+              <div className="relative w-full h-full rounded-2xl overflow-hidden flex items-center justify-center min-h-[380px] sm:min-h-[460px]">
+                {!imageErrors[activeProject.id] ? (
+                  <img
+                    key={activeProject.id}
+                    src={activeProject.image}
+                    alt={activeProject.title}
+                    onError={() => handleImageError(activeProject.id)}
+                    className="w-full h-full object-contain max-h-[600px] rounded-2xl transition-opacity duration-300"
+                    loading="eager"
+                    decoding="async"
+                  />
+                ) : (
+                  <div className="p-8 text-center flex flex-col items-center justify-center">
+                    <Play className="w-10 h-10 text-slate-600 mb-2" />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

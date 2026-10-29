@@ -59,7 +59,7 @@ export const Card: React.FC<CardProps> = ({
         style={{
           backgroundColor: clientProject.cardTheme.bgColor,
           scale,
-          top: `calc(316px + ${i * 44}px)`,
+          top: `calc(304px + ${i * 44}px)`,
         }}
         className={`flex flex-col relative w-full max-w-6xl rounded-[28px] sm:rounded-[36px] lg:rounded-[40px] border ${clientProject.cardTheme.border} pt-3.5 sm:pt-4 lg:pt-4 px-5 sm:px-7 lg:px-8 pb-5 sm:pb-6 lg:pb-7 shadow-[0_24px_50px_-12px_rgba(15,23,42,0.12),0_8px_20px_-4px_rgba(15,23,42,0.05)] origin-top will-change-transform`}
       >
@@ -229,7 +229,7 @@ export const SelectedWork: React.FC = () => {
       {/* Sticky Section Heading — main heading and sub heading */}
       <motion.div
         style={{ y: prefersReducedMotion ? 0 : headingY }}
-        className="sticky top-[76px] z-20 bg-white pt-3 sm:pt-4 pb-4 sm:pb-6"
+        className="sticky top-[136px] z-20 bg-white pt-1 pb-3"
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionBadge label="/ 03 — SELECTED WORK" className="mb-2 sm:mb-2.5" />
@@ -243,7 +243,7 @@ export const SelectedWork: React.FC = () => {
       </motion.div>
 
       {/* UI-Layouts Stacking Cards Container */}
-      <div ref={containerRef} className="relative pb-0 -mt-[316px]">
+      <div ref={containerRef} className="relative pb-0 -mt-[304px]">
         {clientProjects.map((clientProject: ClientProject, i: number) => {
           const isLast = i === clientProjects.length - 1;
           const targetScale = targetScales[i] ?? 1;

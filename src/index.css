@@ -109,6 +109,27 @@
   transform: translateY(0) scale(0.98);
 }
 
+/* Shake animation for invalid passcodes */
+@keyframes shake-x {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-7px); }
+  40%, 80% { transform: translateX(7px); }
+}
+
+.animate-shake-x {
+  animation: shake-x 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+/* Ambient glow pulsation */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.25; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(1.08); }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 7s ease-in-out infinite;
+}
+
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   * {
@@ -118,3 +139,4 @@
     scroll-behavior: auto !important;
   }
 }
+

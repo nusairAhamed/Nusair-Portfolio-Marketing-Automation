@@ -22,7 +22,7 @@ export const Footer: React.FC = () => {
 
         <div className="flex flex-wrap items-center gap-6 text-xs font-mono font-semibold uppercase tracking-wider">
           <a
-            href="https://linkedin.com"
+            href="https://www.linkedin.com/in/nusair-ahamed/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-slate-600 hover:text-slate-900 transition-colors"
@@ -30,15 +30,7 @@ export const Footer: React.FC = () => {
             LinkedIn ↗
           </a>
           <a
-            href="https://github.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-slate-600 hover:text-slate-900 transition-colors"
-          >
-            GitHub ↗
-          </a>
-          <a
-            href="mailto:nusair@example.com"
+            href="mailto:nus.ahamed@gmail.com"
             className="text-slate-600 hover:text-slate-900 transition-colors"
           >
             Email ↗

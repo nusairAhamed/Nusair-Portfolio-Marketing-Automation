@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { useLenis } from './hooks/useLenis';
 import { FloatingNav } from './components/Navigation/FloatingNav';
 import { Hero } from './components/Hero/Hero';
@@ -9,8 +9,26 @@ import { ProcessTimeline } from './components/Process/ProcessTimeline';
 import { Experience } from './components/Experience/Experience';
 import { Contact } from './components/Contact/Contact';
 import { Footer } from './components/Footer/Footer';
+import { PasswordGate } from './components/PasswordGate/PasswordGate';
 
-export const App: React.FC = () => {
+const STORAGE_KEY = 'portfolio_preview_auth';
+
+const checkInitialAuth = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  try {
+    return (
+      localStorage.getItem(STORAGE_KEY) === 'granted' ||
+      sessionStorage.getItem(STORAGE_KEY) === 'granted'
+    );
+  } catch {
+    return false;
+  }
+};
+
+/**
+ * Main portfolio layout with Lenis smooth scrolling active
+ */
+const MainPortfolio: React.FC = () => {
   // Initialize smooth Lenis scrolling synced with GSAP ScrollTrigger
   useLenis();
 
@@ -47,6 +65,20 @@ export const App: React.FC = () => {
       <Footer />
     </div>
   );
+};
+
+export const App: React.FC = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(checkInitialAuth);
+
+  const handleUnlock = useCallback(() => {
+    setIsAuthenticated(true);
+  }, []);
+
+  if (!isAuthenticated) {
+    return <PasswordGate onUnlock={handleUnlock} />;
+  }
+
+  return <MainPortfolio />;
 };
 
 export default App;

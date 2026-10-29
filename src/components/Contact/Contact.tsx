@@ -90,7 +90,7 @@ export const Contact: React.FC = () => {
               <TactileButton
                 variant="dark"
                 size="lg"
-                href="mailto:nusair@example.com?subject=Campaign%20Development%20Inquiry"
+                href="mailto:nus.ahamed@gmail.com?subject=Campaign%20Development%20Inquiry"
                 icon="arrow-right"
                 className="text-base font-semibold"
               >
@@ -100,7 +100,7 @@ export const Contact: React.FC = () => {
               <TactileButton
                 variant="secondary"
                 size="lg"
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/nusair-ahamed/"
                 target="_blank"
                 rel="noopener noreferrer"
                 icon="arrow-up-right"
